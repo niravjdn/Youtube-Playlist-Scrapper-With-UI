@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -30,6 +31,8 @@ public class Scrapper {
 	public static List<String> playlistIDList = new ArrayList<String>();
 
 	public void scrape(String urlOfPlaylist, String driverPath) throws IOException {
+		playlistIDList.clear();
+		playlistNameList.clear();
 		Scrapper.url = urlOfPlaylist;
 		String exePath;
 		String OS = System.getProperty("os.name").toLowerCase();
@@ -49,16 +52,15 @@ public class Scrapper {
 		XvfbController display = manager.start(1);
 
 		System.setProperty("webdriver.chrome.driver", driverPath + exePath);
-		
+
 		ChromeDriverService chromeDriverService = new ChromeDriverService.Builder()
 				.withEnvironment(ImmutableMap.of("DISPLAY", ":1")).build();
 		chromeDriverService.start();
 
 		ChromeOptions options = new ChromeOptions();
 
-		//"--headless"
-		options.addArguments( "--disable-gpu", "--window-size=1024,768", "--ignore-certificate-errors",
-				"--silent");
+		// "--headless"
+		options.addArguments("--disable-gpu", "--window-size=1024,768", "--ignore-certificate-errors", "--silent");
 
 		driver = new ChromeDriver(chromeDriverService, options);
 
@@ -66,6 +68,16 @@ public class Scrapper {
 			driver.get(url);
 
 			falseWait();
+
+			try {
+				for (int i = 0; i < 10; i++) {
+					((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 5000);");
+					Thread.sleep(2000);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			List<WebElement> anchors = driver.findElements(By.tagName("a"));
 			for (WebElement anchor : anchors) {

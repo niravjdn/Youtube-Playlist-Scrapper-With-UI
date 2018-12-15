@@ -48,7 +48,7 @@ public class ScrapPlaylist extends HttpServlet {
 		String playListID = "";
 		playListID = "\"";
 		for (String str : Scrapper.playlistIDList) {
-			playListID += str + "\n";
+			playListID += str + ",";
 		}
 		playListID += "\"";
 		
