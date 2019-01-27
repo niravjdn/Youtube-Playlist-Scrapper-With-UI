@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -35,6 +38,7 @@ public class Scrapper {
 		playlistNameList.clear();
 		Scrapper.url = urlOfPlaylist;
 		String exePath;
+		
 		String OS = System.getProperty("os.name").toLowerCase();
 		if (OS.indexOf("win") >= 0) {
 			driverPath = "C:/driver/chromedriver.exe";
